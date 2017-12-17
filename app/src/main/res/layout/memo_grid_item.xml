@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/swipe"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="40dp"
+        android:layout_height="120dp"
+        android:background="@color/red_lighten_1"
+        android:gravity="center"
+        android:tag="Bottom2">
+
+        <ImageView
+            android:id="@+id/memo_delete"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/trash" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+
+        <TextView
+            android:id="@+id/grid_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:singleLine="false"
+            android:tag="Hover"
+            android:text="too young to simple, sometimes navie------>too young to simple, sometimes navie" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="16dp">
+
+            <TextView
+                android:id="@+id/create_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:paddingLeft="5dp"
+                android:text="2017-1-1 12:18" />
+
+            <ImageView
+                android:id="@+id/clock"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentRight="true"
+                android:paddingRight="10dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/clock" />
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/memo_id"
+            android:layout_width="0dp"
+            android:layout_height="0dp" />
+    </LinearLayout>
+</com.daimajia.swipe.SwipeLayout>
