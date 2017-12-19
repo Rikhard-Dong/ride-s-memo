@@ -24,16 +24,16 @@ import io.ride.memo.util.DateUtil;
  */
 
 public class MemoGridViewAdapter extends BaseSwipeAdapter {
-    private Context context;
-    private List<Memo> memos;
-    private MemoDao memoDao;
+        private Context context;
+        private List<Memo> memos;
+        private MemoDao memoDao;
 
-    public MemoGridViewAdapter(Context context, List<Memo> list) {
-        this.context = context;
-        memoDao = new MemoDao(this.context);
-        // TODO 从数据库获取数据
-        this.memos = list;
-    }
+        public MemoGridViewAdapter(Context context, List<Memo> list) {
+            this.context = context;
+            memoDao = new MemoDao(this.context);
+            // TODO 从数据库获取数据
+            this.memos = list;
+        }
 
     public void setMemos(List<Memo> memos) {
         this.memos = memos;
@@ -51,7 +51,6 @@ public class MemoGridViewAdapter extends BaseSwipeAdapter {
         AbsListView.LayoutParams params = new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 480);
         view.setLayoutParams(params);
         return view;
-//        return LayoutInflater.from(context).inflate(R.layout.memo_grid_item, null);
     }
 
     @Override
@@ -61,7 +60,7 @@ public class MemoGridViewAdapter extends BaseSwipeAdapter {
         TextView contentText = convertView.findViewById(R.id.grid_content);
         ImageView clockImage = convertView.findViewById(R.id.clock);
         contentText.setText(memo.getContent());
-        createTimeText.setText(DateUtil.formatTime(memo.getCraeteTime()));
+        createTimeText.setText(DateUtil.formatTime(memo.getCreateTime()));
         if (memo.isWarm()) {
             if (memo.getWarmTime().getTime() < new Date().getTime()) {
                 clockImage.setImageResource(R.drawable.clock_1);

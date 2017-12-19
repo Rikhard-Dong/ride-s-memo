@@ -3,6 +3,7 @@ package io.ride.memo.activity;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -46,13 +47,14 @@ public class MemoActivity extends Activity {
     private GroupDao groupDao;
     // code 0 插入 1 更新
     private int code;
+    private SwitchButton selectTimeButton;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.memo_activity);
 
-        SwitchButton selectTimeButton = findViewById(R.id.warm);
+        selectTimeButton = findViewById(R.id.warm);
         ImageButton backButton = findViewById(R.id.bt_back);
         ImageButton commitButton = findViewById(R.id.commit);
         warmTimeText = findViewById(R.id.warm_time);
@@ -67,7 +69,7 @@ public class MemoActivity extends Activity {
             code = intent.getIntExtra("code", 0);
             if (id == -1) {
                 memo = new Memo();
-                memo.setCraeteTime(new Date());
+                memo.setCreateTime(new Date());
                 memo.setWarm(false);
                 int groupId = intent.getIntExtra("groupId", 1);
                 memo.setGroupId(groupId);
@@ -159,12 +161,22 @@ public class MemoActivity extends Activity {
                     time += " " + hourOfDay + ":" + minute;
                     Toast.makeText(MemoActivity.this, "click time is " + time, Toast.LENGTH_SHORT).show();
                     memo.setWarmTime(DateUtil.str2TDate(time));
+                    warmTimeText.setText(time);
+                    if (memo.getWarmTime().getTime() < new Date().getTime()) {
+                        warmTimeText.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                    }
                     Log.d("ride-memo-activity", "warm time is " + time);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
             }
         }, hour, minute, true);
+        timePickerDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                selectTimeButton.setChecked(false);
+            }
+        });
         //实例化DatePickerDialog对象
         DatePickerDialog datePickerDialog = new DatePickerDialog(MemoActivity.this, new DatePickerDialog.OnDateSetListener() {
             //选择完日期后会调用该回调函数
@@ -177,6 +189,12 @@ public class MemoActivity extends Activity {
                 timePickerDialog.show();
             }
         }, year, month, day);
+        datePickerDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                selectTimeButton.setChecked(false);
+            }
+        });
         //弹出选择日期对话框
         datePickerDialog.show();
     }
@@ -191,7 +209,9 @@ public class MemoActivity extends Activity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            save();
+            if (contentText.getText() == null || contentText.getText().toString() == ""
+                    || contentText.getText().toString().trim() == "")
+                save();
             finish();
             return true;
         }
@@ -221,5 +241,12 @@ public class MemoActivity extends Activity {
             Toast.makeText(this, "没有内容, 不保存!", Toast.LENGTH_SHORT).show();
             Log.i("ride-memo", "未填入数据");
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        memoDao.close();
+        groupDao.close();
     }
 }

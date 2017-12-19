@@ -63,12 +63,12 @@ public class Memo {
         this.content = content;
     }
 
-    public Date getCraeteTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCraeteTime(Date craeteTime) {
-        this.createTime = craeteTime;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     public boolean isWarm() {

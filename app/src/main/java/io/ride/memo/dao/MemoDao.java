@@ -11,7 +11,6 @@ import java.util.Date;
 import java.util.List;
 
 import io.ride.memo.model.Memo;
-import io.ride.memo.util.DBOpenHelper;
 import io.ride.memo.util.DateUtil;
 
 /**
@@ -20,8 +19,6 @@ import io.ride.memo.util.DateUtil;
  */
 
 public class MemoDao {
-    private Context context;
-    private DBOpenHelper helper;
     private SQLiteDatabase db;
 
     /**
@@ -30,8 +27,7 @@ public class MemoDao {
      * @param context 上下文
      */
     public MemoDao(Context context) {
-        this.context = context;
-        helper = new DBOpenHelper(this.context, DBOpenHelper.DB_NAME, null, DBOpenHelper.VERSION);
+        DBOpenHelper helper = new DBOpenHelper(context, DBOpenHelper.DB_NAME, null, DBOpenHelper.VERSION);
         db = helper.getWritableDatabase();
     }
 
@@ -53,7 +49,7 @@ public class MemoDao {
      */
     public long insert(Memo memo) {
         ContentValues values = new ContentValues();
-        String curTimeStr = DateUtil.formatTime(new Date());
+        String curTimeStr = DateUtil.formatTime(memo.getCreateTime());
 
         // 设置插入的阐述
         values.put(Memo.KEY_CONTENT, memo.getContent());
@@ -76,7 +72,7 @@ public class MemoDao {
      */
     public long update(Memo memo) {
         ContentValues values = new ContentValues();
-        String curTimeStr = DateUtil.formatTime(new Date());
+        String curTimeStr = DateUtil.formatTime(memo.getCreateTime());
 
         // 设置插入的阐述
         values.put(Memo.KEY_CONTENT, memo.getContent());
@@ -108,7 +104,7 @@ public class MemoDao {
      * @param groupId 删除该分组所有memo
      * @return 数据库更新条数
      */
-    public long deleteByGroup(int groupId) {
+    public long deleteByGroupId(int groupId) {
         return db.delete(Memo.KEY_TABLE, Memo.KEY_GROUP_ID + " = ?",
                 new String[]{String.valueOf(groupId)});
     }
@@ -189,7 +185,7 @@ public class MemoDao {
     public Memo queryByRecentWarmMemo() throws ParseException {
         String curDateStr = DateUtil.formatTime(new Date());
         String sql = "select * from " + Memo.KEY_TABLE + " where "
-                + Memo.KEY_IS_WARM + " = 1 and "
+                + Memo.KEY_IS_WARM + " = '1' and "
                 + Memo.KEY_WARM_TIME + " > '" + curDateStr + "' order by "
                 + Memo.KEY_WARM_TIME + " asc";
 

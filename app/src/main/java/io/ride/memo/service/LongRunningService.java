@@ -9,7 +9,6 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import java.text.ParseException;
-import java.util.List;
 
 import io.ride.memo.dao.MemoDao;
 import io.ride.memo.model.Memo;

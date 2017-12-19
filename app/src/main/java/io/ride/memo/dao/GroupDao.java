@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.ride.memo.model.Group;
-import io.ride.memo.util.DBOpenHelper;
 
 /**
  * Created by ride on 17-12-15.
@@ -18,15 +17,12 @@ import io.ride.memo.util.DBOpenHelper;
  */
 
 public class GroupDao {
-    private Context context;
-    private DBOpenHelper helper;
     private SQLiteDatabase db;
 
     private MemoDao memoDao;
 
     public GroupDao(Context context) {
-        this.context = context;
-        helper = new DBOpenHelper(context, DBOpenHelper.DB_NAME, null, DBOpenHelper.VERSION);
+        DBOpenHelper helper = new DBOpenHelper(context, DBOpenHelper.DB_NAME, null, DBOpenHelper.VERSION);
         db = helper.getWritableDatabase();
         memoDao = new MemoDao(context);
     }
@@ -51,7 +47,7 @@ public class GroupDao {
         if (id == 1) {
             return 0;
         }
-        memoDao.deleteByGroup(id);
+        memoDao.deleteByGroupId(id);
         return db.delete(Group.KEY_TABLE, Group.KEY_ID + "=?",
                 new String[]{String.valueOf(id)});
     }

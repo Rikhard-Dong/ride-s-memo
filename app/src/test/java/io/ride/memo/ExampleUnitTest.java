@@ -6,6 +6,8 @@ import org.junit.Test;
 
 import java.util.Date;
 
+import io.ride.memo.util.DateUtil;
+
 import static org.junit.Assert.*;
 
 /**
@@ -17,6 +19,7 @@ public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() throws Exception {
         assertEquals(4, 2 + 2);
-
+        System.out.println(new Date());
+        System.out.println(DateUtil.formatTime(new Date()));
     }
 }

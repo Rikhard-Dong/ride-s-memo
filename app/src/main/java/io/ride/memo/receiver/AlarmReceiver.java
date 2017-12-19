@@ -32,7 +32,12 @@ public class AlarmReceiver extends BroadcastReceiver {
         try {
             if (id != -1) {
                 Memo memo = memoDao.queryById(id);
-                notification(memo, context);
+                /*
+                 * memo为null的情况: 当设置完提醒的memo被删除后, memo则为空
+                 */
+                if (memo != null) {
+                    notification(memo, context);
+                }
             }
         } catch (ParseException e) {
             e.printStackTrace();

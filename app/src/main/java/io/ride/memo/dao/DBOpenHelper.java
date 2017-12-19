@@ -1,4 +1,4 @@
-package io.ride.memo.util;
+package io.ride.memo.dao;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -15,35 +15,34 @@ import io.ride.memo.util.DateUtil;
  * Created by ride on 17-12-15.
  * 数据库助手
  */
-
 public class DBOpenHelper extends SQLiteOpenHelper {
-    public static final String DB_NAME = "db_memo.db";  //  数据库名
-    public static final int VERSION = 1;                // 数据库版本
+    static final String DB_NAME = "db_memo.db";  //  数据库名
+    static final int VERSION = 1;                // 数据库版本
 
     // 创建group表
-    public static final String CREATE_TABLE_GROUP = "create table " + Group.KEY_TABLE + "("
+    private static final String CREATE_TABLE_GROUP = "create table " + Group.KEY_TABLE + "("
             + Group.KEY_ID + " integer primary key autoincrement, "
             + Group.KEY_NAME + " text not null"
             + ")";
     // 删除group表
-    public static final String DROP_TABLE_GROUP = "drop table " + Group.KEY_TABLE;
+    private static final String DROP_TABLE_GROUP = "drop table " + Group.KEY_TABLE;
 
     // 插入默认分组
-    public static final String INSERT_DEFAULT_GROUP = "insert into  " + Group.KEY_TABLE
+    private static final String INSERT_DEFAULT_GROUP = "insert into  " + Group.KEY_TABLE
             + " values('1', 'default')";
 
     // 创建memo表
-    public static final String CREATE_TABLE_MEMO = "create table " + Memo.KEY_TABLE + "("
+    private static final String CREATE_TABLE_MEMO = "create table " + Memo.KEY_TABLE + "("
             + Memo.KEY_ID + " integer primary key autoincrement, "
             + Memo.KEY_CONTENT + " text not null, "
-            + Memo.KEY_CREATE_TIME + " text, "                  // 文本类型, sqlite没有时间类型
-            + Memo.KEY_IS_WARM + " integer default false, "     // 整型, sqlite中没有布尔类型
+            + Memo.KEY_IS_WARM + " text not null default 0, "
             + Memo.KEY_WARM_TIME + " text, "
+            + Memo.KEY_CREATE_TIME + " text, "                  // 文本类型, sqlite3没有时间类型
             + Memo.KEY_GROUP_ID + " integer"                    // 所属分组id
             + ")";
 
     // 删除memo表
-    public static final String DROP_TABLE_MEMO = "drop table " + Memo.KEY_TABLE;
+    private static final String DROP_TABLE_MEMO = "drop table " + Memo.KEY_TABLE;
 
     public DBOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);

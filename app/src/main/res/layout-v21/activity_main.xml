@@ -63,10 +63,15 @@
             android:id="@+id/id_container_menu"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="48dp"
             android:background="@color/teal_lighten_3">
 
+            <TextView
+                android:background="@color/red_accent_1"
+                android:layout_width="match_parent"
+                android:layout_height="48dp" />
+
             <RelativeLayout
+                android:layout_marginTop="48dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 

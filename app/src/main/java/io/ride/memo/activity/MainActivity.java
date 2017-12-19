@@ -240,7 +240,6 @@ public class MainActivity extends Activity {
                 final EditText editText = new EditText(MainActivity.this);
                 editText.setPadding(10, 2, 10, 2);
 
-
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this)
                         .setTitle("新建分组")
                         .setMessage("创建新的分组存放您的备忘录")
@@ -256,21 +255,27 @@ public class MainActivity extends Activity {
                                 String inputStr = editText.getText().toString();
                                 Log.i("ride-memo", "inputStr: " + inputStr);
                                 if (!inputStr.trim().equals("")) {
-                                    Toast.makeText(MainActivity.this, "true:" + inputStr, Toast.LENGTH_SHORT).show();
                                     Group group = new Group(inputStr);
                                     groupDao.insert(group);
-
                                     groups = (ArrayList<Group>) groupDao.queryAll();
                                     groupGridViewAdapter = new GroupGridViewAdapter(MainActivity.this,
                                             R.layout.group_grid_item, groups, groupId);
                                     groupGridView.setAdapter(groupGridViewAdapter);
                                     dialog.dismiss();
                                 } else {
-                                    Toast.makeText(MainActivity.this, "请输入分组名", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(MainActivity.this, "请输入分组名",
+                                            Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        memoDao.close();
+        groupDao.close();
     }
 }
